@@ -1,0 +1,70 @@
+
+<html>
+    <head>
+        <script>
+            let held_number = ""
+            let input = ""
+            let plus_count = 0
+            let minus_count = 0
+
+            function hold_number(){
+                new_held_number = ""
+                for(let i = 0; i < 4; i++){
+                    new_held_number += ''+Math.round((Math.random()*9));
+                }
+                
+                //console.log(new_held_number)                    
+                return new_held_number
+            }
+
+            function reset(){
+                document.getElementById("p_output").innerHTML = "Output <br />"
+                input = ""
+                plus_count = 0
+                minus_count = 0
+                held_number = hold_number()
+            }
+
+            function get_guess_result(number, guess){
+                let plus = 0
+                let minus = 0
+
+                for(let i = 0; i < 4; i++){
+                    if(guess.at(i) == number.at(i)){
+                        plus++;
+                        continue;
+                    } else if (number.indexOf(guess.at(i)) > -1){
+                        minus++;
+                    }
+                }
+
+                return [plus, minus]
+
+            }
+
+            function read_input(){
+                [plus_count, minus_count] = get_guess_result(held_number, document.getElementById("inp_guess").value)
+                document.getElementById("p_output").innerHTML = document.getElementById("p_output").innerHTML + document.getElementById("inp_guess").value + " |    +" + plus_count + " -" + minus_count + "<br />";
+            }
+        </script>
+    </head>
+
+    <body onload="reset()">
+        <h2> Guessr Number Guessing Game</h2>
+        <p> This is a simple number guessing game. It is built by vanilla JS without any frameworks or similar as fun project.</p>
+        <p><span>Rules</span> are simple. Player will guess a 4 digit number, if a number is correct and in correct position a plus is earned, if number is correct but the position is wwong you earn a minus. If the number is incorrect you earn nothing. When player gets +4 guess is completely correct. </p>
+        <p><span>Features to add</span></p>
+        <ul>
+            <li>Number should not have repeated digits e.g. 1234 valid 1224 is not valid</li>
+            <li>A note section can be added for player to write down freely</li>
+            <li>Input should be limited to 4 digits only</li>
+        </ul>
+        <hr />
+        <button id="btn_reset" onclick="reset()"> Reset </button>
+        <br />
+        Your Guess: <input id="inp_guess"> </input>
+        <button id="btn_guess" onclick="read_input()"> Guess </button>
+        <p id="p_output"> Output </p>
+    </body>
+
+</html>
